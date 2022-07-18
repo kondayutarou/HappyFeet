@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  HappyFeet
+
+  Created by Yutaro on 2022/07/10.
+  
+*/
+
+"application.navigation.title" = "Happy Feet - Monsoon Marvel";
+"application.name.title" = "Name";
+"application.name.firstName" = "First Name";
+"application.name.lastName" = "Last Name";
+"application.email.title" = "E-mail";
+"application.email.invalidFormat" = "format is invalid";
+"application.telephone.title" = "Telephone";
+"application.telephone.invalidFormat" = "format is invalid";
+"application.address" = "Address";
+"application.dateOfBirth" = "Date of Birth";
+"application.dateOfBirth.invalidFormat" = "format is invalid";
+"application.dateOfParticipation.title" = "Date of Participation";
+"application.dateOfParticipation.notPicked" = "must be picked";
+"application.bloodType.title" = "Blood Group";
+"application.bloodType.notPicked" = "must be picked";
+"application.pastInjuries" = "Past Injuries/Disabilities";
+"application.pickupPoint.title" = "Pickup Point";
+"application.pickupPoint.notPicked" = "must be picked";
+"application.disclaimer.title" = "I know that the event involves physical activities and these are potentially hazardous activities. I knowingly and freely assume all risks, both known and unknown, and assume full responsibility for these. I acknowledge that at all times during the event, the responsibility of my personal safety lies only with me. Happy Feet is not liable for any injuries, accidents, or deaths occurring during this event. ";
+"application.disclaimer.notPicked" = "You must agree to the terms of service.";
+"application.submit" = "Submit";
+"application.notFilled" = "must be filled";
