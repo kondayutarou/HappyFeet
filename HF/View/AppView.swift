@@ -15,11 +15,12 @@ struct AppView: View {
     init(store: Store<AppState, AppAction>) {
         self.store = store
         self.viewStore = ViewStore(self.store.scope(state: ViewState.init(state:)))
+        viewStore.send(AppAction.viewDidLoad)
     }
     
     struct ViewState: Equatable {
         let formInput: FormInput
-        let datesOfParticipation: Array<ParticipationDate>
+        var datesOfParticipation: Array<ParticipationDate>
         let pickupPoints: Array<PickupPoint>
         
         init(state: AppState) {
@@ -209,7 +210,12 @@ struct AppView_Previews: PreviewProvider {
             store: Store(
                 initialState: AppState(),
                 reducer: appReducer,
-                environment: AppEnvironment(mainQueue: .main)
+                environment: AppEnvironment(
+                    mainQueue: .main,
+                    happyFeetApiClient: HappyFeetAPIClient.live(
+                        baseUri: Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String
+                                                               )
+                )
             )
         )
     }

@@ -8,6 +8,9 @@
 import Foundation
 
 enum AppAction: Equatable {
+    case viewDidLoad
+    case datesOfParticipationResponse(Result<ParticipationDateAPIResponse, HappyFeetAPIClient.ApiError>)
+    case pickUpPointsResponse(Result<PickupPointAPIResponse, HappyFeetAPIClient.ApiError>)
     case firstNameChanged(String)
     case lastNameChanged(String)
     case emailChanged(String)

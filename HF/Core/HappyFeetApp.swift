@@ -16,7 +16,10 @@ struct HappyFeetApp: App {
                 store: Store(
                     initialState: AppState(),
                     reducer: appReducer,
-                    environment: AppEnvironment(mainQueue: .main)
+                    environment: AppEnvironment(
+                        mainQueue: .main,
+                        happyFeetApiClient: HappyFeetAPIClient.live(baseUri: Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String)
+                    )
                 )
             )
         }

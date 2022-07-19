@@ -95,3 +95,5 @@ iOSInjectionProject/
 
 # SwiftGen
 /HF/Generated/
+
+/HF/Info.plist

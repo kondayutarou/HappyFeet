@@ -11,6 +11,25 @@ import ComposableArchitecture
 let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     Reducer { state, action, environment in
         switch action {
+        case .viewDidLoad:
+            return .merge(
+                environment
+                .happyFeetApiClient.datesOfParticipation()
+                .catchToEffect(AppAction.datesOfParticipationResponse),
+                environment
+                .happyFeetApiClient.pickupPoints()
+                .catchToEffect(AppAction.pickUpPointsResponse)
+            )
+        case let .datesOfParticipationResponse(.success(response)):
+            state.datesOfParticipation = response.toModel()
+            return .none
+        case .datesOfParticipationResponse(.failure):
+            return .none
+        case let .pickUpPointsResponse(.success(response)):
+            state.pickupPoints = response.toModel()
+            return .none
+        case .pickUpPointsResponse(.failure):
+            return .none
         case let .firstNameChanged(firstName):
             state.formInput.firstName = firstName
             return .none

@@ -70,12 +70,17 @@ targets:
         TARGETED_DEVICE_FAMILY: '1'
       configs:
         Debug:
+          BASE_URL: http://localhost:3000
         Release:
     sources:
     - path: HF
     dependencies:
       - package: ComposableArchitecture
     type: application
+    info:
+      path: HF/Info.plist
+      properties:
+        BASE_URL: $(BASE_URL)
   Tests_HappyFeet:
     dependencies:
     - target: HappyFeet
