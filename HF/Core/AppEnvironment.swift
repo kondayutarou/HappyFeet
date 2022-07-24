@@ -11,4 +11,5 @@ import CombineSchedulers
 struct AppEnvironment {
     var mainQueue: AnySchedulerOf<DispatchQueue>
     var happyFeetApiClient: HappyFeetAPIClient
+    var uuid: () -> UUID
 }

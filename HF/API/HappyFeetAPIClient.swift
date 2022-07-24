@@ -11,15 +11,15 @@ import ComposableArchitecture
 // MARK: - API models
 typealias ParticipationDateAPIResponse = [String]
 extension ParticipationDateAPIResponse {
-    func toModel() -> Array<ParticipationDate> {
-        self.map { ParticipationDate(id: UUID(), date: $0) }
+    func toModel(with uuid: () -> UUID) -> Array<ParticipationDate> {
+        self.map { ParticipationDate(id: uuid(), date: $0) }
     }
 }
 
 typealias PickupPointAPIResponse = [String]
 extension PickupPointAPIResponse {
-    func toModel() -> Array<PickupPoint> {
-        self.map { PickupPoint(id: UUID(), placeName: $0) }
+    func toModel(with uuid: () -> UUID) -> Array<PickupPoint> {
+        self.map { PickupPoint(id: uuid(), placeName: $0) }
     }
 }
 

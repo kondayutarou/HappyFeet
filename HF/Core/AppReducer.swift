@@ -21,12 +21,12 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
                 .catchToEffect(AppAction.pickUpPointsResponse)
             )
         case let .datesOfParticipationResponse(.success(response)):
-            state.datesOfParticipation = response.toModel()
+            state.datesOfParticipation = response.toModel(with: environment.uuid)
             return .none
         case .datesOfParticipationResponse(.failure):
             return .none
         case let .pickUpPointsResponse(.success(response)):
-            state.pickupPoints = response.toModel()
+            state.pickupPoints = response.toModel(with: environment.uuid)
             return .none
         case .pickUpPointsResponse(.failure):
             return .none

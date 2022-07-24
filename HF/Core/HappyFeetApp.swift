@@ -18,7 +18,8 @@ struct HappyFeetApp: App {
                     reducer: appReducer,
                     environment: AppEnvironment(
                         mainQueue: .main,
-                        happyFeetApiClient: HappyFeetAPIClient.live(baseUri: Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String)
+                        happyFeetApiClient: HappyFeetAPIClient.live(baseUri: Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String),
+                        uuid: UUID.init
                     )
                 )
             )

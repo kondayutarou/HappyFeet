@@ -214,7 +214,8 @@ struct AppView_Previews: PreviewProvider {
                     mainQueue: .main,
                     happyFeetApiClient: HappyFeetAPIClient.live(
                         baseUri: Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String
-                                                               )
+                                                               ),
+                    uuid: UUID.init
                 )
             )
         )
