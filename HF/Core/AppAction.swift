@@ -23,4 +23,5 @@ enum AppAction: Equatable {
     case pickupPointSelected(PickupPoint?)
     case disclaimerChecked(Bool)
     case submitTapped
+    case applicationResponse(Result<ApplicationAPIResponse, HappyFeetAPIClient.ApiError>)
 }

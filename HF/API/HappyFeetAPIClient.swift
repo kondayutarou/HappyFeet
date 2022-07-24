@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import Alamofire
 
 // MARK: - API models
 typealias ParticipationDateAPIResponse = [String]
@@ -23,10 +24,16 @@ extension PickupPointAPIResponse {
     }
 }
 
+struct ApplicationAPIResponse: Decodable, Equatable {
+    let success: Bool
+    let number: Int
+}
+
 struct HappyFeetAPIClient {
     var datesOfParticipation: () -> Effect<ParticipationDateAPIResponse, ApiError>
     var pickupPoints: () -> Effect<PickupPointAPIResponse, ApiError>
-
+    var application: (FormInput) -> Effect<ApplicationAPIResponse, ApiError>
+    
     struct ApiError: Error, Equatable {
         let message: String?
     }
@@ -36,17 +43,39 @@ extension HappyFeetAPIClient {
     static func live(baseUri: String) -> HappyFeetAPIClient {
         HappyFeetAPIClient(
             datesOfParticipation: {
-                return URLSession.shared.dataTaskPublisher(for: URL(string: "\(baseUri)/participationDateList")!)
-                    .map { data, _ in data }
-                    .decode(type: ParticipationDateAPIResponse.self, decoder: jsonDecoder)
-                    .mapError { error in ApiError(message: error.localizedDescription) }
+                return AF.request("\(baseUri)/participationDateList")
+                    .validate()
+                    .publishDecodable(type: ParticipationDateAPIResponse.self)
+                    .value()
+                    .mapError { ApiError(message: $0.localizedDescription) }
                     .eraseToEffect()
             },
             pickupPoints: {
-                return URLSession.shared.dataTaskPublisher(for: URL(string: "\(baseUri)/pickupPoints")!)
-                    .map { data, _ in data }
-                    .decode(type: PickupPointAPIResponse.self, decoder: jsonDecoder)
-                    .mapError { error in ApiError(message: error.localizedDescription) }
+                return AF.request("\(baseUri)/pickupPoints")
+                    .validate()
+                    .publishDecodable(type: PickupPointAPIResponse.self)
+                    .value()
+                    .mapError { ApiError(message: $0.localizedDescription) }
+                    .eraseToEffect()
+            },
+            application: { form in
+                let params: Parameters = [
+                    "firstName": form.firstName,
+                    "lastName": form.lastName,
+                    "email": form.email,
+                    "telephone": form.telephone,
+                    "address": form.address,
+                    "dateOfBirth": form.dateOfBirth,
+                    "participationDate": form.pickedDate?.date,
+                    "bloodType": form.pickedBloodType?.rawValue,
+                    "pastInjuriesAndDisabilities": form.pastInjuriesAndDisabilities,
+                    "pickupPoint": form.selectedPickupPoint?.placeName
+                ]
+                return AF.request("\(baseUri)/applicationResult", method: .post, parameters: params, encoding: JSONEncoding.default)
+                    .validate()
+                    .publishDecodable(type: ApplicationAPIResponse.self)
+                    .value()
+                    .mapError { ApiError(message: $0.localizedDescription) }
                     .eraseToEffect()
             }
         )

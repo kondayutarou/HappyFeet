@@ -64,6 +64,12 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
             state.formInput.disclaimerChecked = isChecked
             return .none
         case .submitTapped:
+            return environment.happyFeetApiClient.application(state.formInput)
+                .catchToEffect(AppAction.applicationResponse)
+        case let .applicationResponse(.success(response)):
+            print(response)
+            return .none
+        case .applicationResponse(.failure):
             return .none
         }
     }

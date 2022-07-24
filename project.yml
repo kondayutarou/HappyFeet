@@ -9,6 +9,9 @@ packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture
     from: 0.9.0
+  Alamofire:
+    url: https://github.com/Alamofire/Alamofire
+    from: 5.6.2
 options:
   defaultConfig: Release
   groupSortPosition: bottom
@@ -76,6 +79,7 @@ targets:
     - path: HF
     dependencies:
       - package: ComposableArchitecture
+      - package: Alamofire
     type: application
     info:
       path: HF/Info.plist
@@ -105,4 +109,5 @@ targets:
     - path: HF_Test
     dependencies:
     - package: ComposableArchitecture
+    - package: Alamofire
     type: bundle.unit-test
