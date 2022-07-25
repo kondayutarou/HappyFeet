@@ -24,4 +24,5 @@ enum AppAction: Equatable {
     case disclaimerChecked(Bool)
     case submitTapped
     case applicationResponse(Result<ApplicationAPIResponse, HappyFeetAPIClient.ApiError>)
+    case alertDismissed
 }

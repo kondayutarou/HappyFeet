@@ -28,3 +28,7 @@
 "application.disclaimer.notPicked" = "You must agree to the terms of service.";
 "application.submit" = "Submit";
 "application.notFilled" = "must be filled";
+"application.successful.title" = "Application Successful";
+"application.successful.message" = "Your application number is %d";
+"application.error.title" = "Application Error";
+"application.dismiss" = "OK";

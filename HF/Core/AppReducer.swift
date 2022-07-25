@@ -67,9 +67,21 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
             return environment.happyFeetApiClient.application(state.formInput)
                 .catchToEffect(AppAction.applicationResponse)
         case let .applicationResponse(.success(response)):
-            print(response)
+            state.alert = .init(
+                title: .init(L10n.Application.Successful.title),
+                message: .init(L10n.Application.Successful.message(response.number)),
+                dismissButton: .default(.init(L10n.Application.dismiss), action: .send(.alertDismissed))
+            )
             return .none
-        case .applicationResponse(.failure):
+        case let .applicationResponse(.failure(error)):
+            state.alert = .init(
+                title: .init(L10n.Application.Error.title),
+                message: .init(error.message ?? ""),
+                dismissButton: .default(.init(L10n.Application.dismiss), action: .send(.alertDismissed))
+            )
+            return .none
+        case .alertDismissed:
+            state.alert = nil
             return .none
         }
     }

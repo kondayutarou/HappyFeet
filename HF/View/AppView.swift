@@ -199,6 +199,10 @@ struct AppView: View {
                     }
                 }
                 .disabled(!viewStore.formInput.isInputValid())
+                .alert(
+                    self.store.scope(state: \.alert),
+                    dismiss: .alertDismissed
+                )
             }
         }
     }
