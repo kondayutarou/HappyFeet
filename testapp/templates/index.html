@@ -10,6 +10,9 @@
     body {
       background: linear-gradient(to bottom right, #fff0f5, #e0f7fa);
       font-family: "Comic Sans MS", "Arial Rounded MT Bold", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     .hero {
       background: url('https://i.imgur.com/x4JJKZK.jpg') no-repeat center center;
@@ -32,13 +35,17 @@
       background-color: #ffc107;
       transform: scale(1.05);
     }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
     footer {
       background-color: #f8f9fa;
       padding: 1rem 0;
       text-align: center;
       color: #666;
       font-size: 0.9rem;
-      margin-top: 3rem;
+      margin-top: auto;
     }
   </style>
 </head>
@@ -46,46 +53,69 @@
 
   <!-- Header -->
   <nav class="navbar navbar-light bg-white shadow-sm mb-4">
-    <div class="container">
-    <span class="navbar-brand mb-0 h1 text-success fw-bold" aria-label="Club Happy Feet">🌟 Club Happy Feet</span>
-    <span class="text-danger">Fun + Fitness for Kids!</span>
+    <div class="container d-flex justify-content-between align-items-center">
+      <span class="navbar-brand mb-0 h1 text-success fw-bold" aria-label="Club Happy Feet">🌟 Club Happy Feet</span>
+      {% if current_user.is_authenticated %}
+        <div>
+          <span class="me-3">Hi, {{ current_user.user_name }}!</span>
+          <a class="btn btn-sm btn-outline-danger" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+      {% else %}
+          <a href="#login" class="btn btn-fun btn-sm px-3">Login</a>
+      {% endif %}
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    Let's Move, Laugh, Explore!
-  </div>
+  <main>
+    <!-- Hero Section -->
+    <div class="hero">
+      Let's Move, Laugh, Explore!
+    </div>
 
-  <!-- What We Do -->
-  <div class="container text-center my-5">
-    <h2 class="text-primary mb-3">🎉 What We Do</h2>
-    <p class="lead">We help kids build confidence, fitness, and friendships through exciting nature-based activities!</p>
-    <a href="#activities" class="btn btn-fun mt-3">Explore Activities</a>
-  </div>
+    <!-- What We Do Section -->
+    <div class="container text-center my-5">
+      <h2 class="text-primary mb-3">🎉 What We Do</h2>
+      <p class="lead">We help kids build confidence, fitness, and friendships through exciting nature-based activities!</p>
+      <a href="#activities" class="btn btn-fun mt-3">Explore Activities</a>
+    </div>
 
-  <div class="container my-5">
-    <h2 class="mb-4">Login</h2>
-    <form method="POST">
-      {{ form.hidden_tag() }}
-      <div class="mb-3">
-        {{ form.email.label(class="form-label") }}
-        {{ form.email(class="form-control") }}
-        {% for error in form.email.errors %}
-          <div class="text-danger small">{{ error }}</div>
-        {% endfor %}
+    {% if not current_user.is_authenticated %}
+    <!-- Login Form -->
+    <div class="container my-5" style="max-width: 500px;" id="login">
+      <div class="card p-4">
+        <h3 class="text-center mb-4">Login</h3>
+        <form method="POST">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", autocomplete='email') }}
+            {% for error in form.email.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", autocomplete='current-password') }}
+            {% for error in form.password.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="d-grid">
+            {{ form.submit(class="btn btn-fun") }}
+          </div>
+        </form>
+        <div class="text-center mt-3">
+          <p class="mb-1">Don't have an account?</p>
+          <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-sm">Create an Account</a>
+        </div>
       </div>
-      <div class="mb-3">
-        {{ form.password.label(class="form-label") }}
-        {{ form.password(class="form-control") }}
-        {% for error in form.password.errors %}
-          <div class="text-danger small">{{ error }}</div>
-        {% endfor %}
-      </div>
-      {{ form.submit(class="btn btn-fun") }}
-    </form>
-  </div>
+    </div>
+    {% endif %}
+  </main>
 
-  <div class="container my-5 pb-5"></div>
+  <footer>
+    &copy; {{ current_year }} Club Happy Feet. All rights reserved.
+  </footer>
+
 </body>
 </html>

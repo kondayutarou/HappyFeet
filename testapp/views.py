@@ -1,6 +1,6 @@
 from . import app
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 from testapp import db
 from testapp.models.member import Member
 from .models.login_form import LoginForm
@@ -27,7 +27,12 @@ def login():
                 flash('パスワードが一致しません')
         else:
             flash('入力されたユーザーは存在しません')
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, current_user=current_user)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
