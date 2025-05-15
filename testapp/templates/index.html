@@ -52,21 +52,38 @@
 <body>
 
   <!-- Header -->
-  <nav class="navbar navbar-light bg-white shadow-sm mb-4">
-    <div class="container d-flex justify-content-between align-items-center">
-      <span class="navbar-brand mb-0 h1 text-success fw-bold" aria-label="Club Happy Feet">🌟 Club Happy Feet</span>
-      <div class="d-flex align-items-center">
-        <div class="d-flex gap-2">
-          <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-sm">Contact</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+      <a class="navbar-brand text-success fw-bold" href="{{ url_for('login') }}">
+        🌟 Club Happy Feet
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+        <!-- Left-side links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+          </li>
           {% if current_user.is_authenticated %}
-            <div class="d-flex align-items-center">
-              <span class="me-3">Hi, {{ current_user.user_name }}!</span>
-              <a class="btn btn-sm btn-outline-danger" href="{{ url_for('logout') }}">Logout</a>
-            </div>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
           {% else %}
-            <a href="#login" class="btn btn-fun btn-sm">Login</a>
+            <li class="nav-item">
+              <a class="nav-link" href="#login">Login</a>
+            </li>
           {% endif %}
-        </div>
+        </ul>
+
+        <!-- Right-side greeting -->
+        {% if current_user.is_authenticated %}
+          <span class="navbar-text text-muted">
+            Hi, {{ current_user.user_name }}!
+          </span>
+        {% endif %}
       </div>
     </div>
   </nav>
