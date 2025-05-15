@@ -1,6 +1,6 @@
 from . import app
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, AnonymousUserMixin
 from testapp import db
 from testapp.models.member import Member
 from .models.login_form import LoginForm
@@ -85,13 +85,18 @@ def member_delete(id):
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     contact_form = ContactForm()
-    if request.method == "POST":
-        name = contact_form.name.data
-        email = contact_form.email.data
-        message = contact_form.message.data
+    match request.method:
+        case 'POST':
+            name = contact_form.name.data
+            email = contact_form.email.data
+            message = contact_form.message.data
 
-        # You can handle the form submission here (save to DB, send email, etc.)
-        flash("Thanks for reaching out! We'll be in touch soon. 😊", "success")
-        return redirect(url_for("contact"))
-
-    return render_template("contact.html", contact_form=contact_form)
+            # You can handle the form submission here (save to DB, send email, etc.)
+            flash("Thanks for reaching out! We'll be in touch soon. 😊", "success")
+            return redirect(url_for("contact"))
+        case 'GET':
+            if current_user.is_authenticated == True:
+                name = Member.query.filter_by(email=current_user.email).first().user_name
+            else:
+                name = None
+            return render_template("contact.html", contact_form=contact_form, name=name, current_user=current_user)
