@@ -22,7 +22,7 @@ def login():
                         #check_passwordはUserモデル内の関数
                         if user.check_password(form.password.data):
                             #ログイン処理。ログイン状態として扱われる。
-                            login_user(user)
+                            login_user(user, remember=True)
                             next = request.args.get('next')
                             if next == None or not next[0] == '/':
                                 next = url_for('login')
