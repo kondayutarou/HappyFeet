@@ -4,6 +4,7 @@ from flask_login import login_user, current_user, logout_user
 from testapp import db
 from testapp.models.member import Member
 from .models.login_form import LoginForm
+from .models.contact_form import ContactForm
 from .models.registration_form import RegistrationForm
 import testapp.login
 
@@ -11,6 +12,7 @@ import testapp.login
 @app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    contact_form = ContactForm()
     match request.method:
         case 'POST':
                 if form.validate_on_submit():
@@ -31,7 +33,7 @@ def login():
                         flash('No matching account', 'danger')
                 else:
                     flash('Incorrect email format', 'danger')
-    return render_template('index.html', form=form, current_user=current_user)
+    return render_template('index.html', form=form, contact_form=contact_form, current_user=current_user)
 
 @app.route('/logout')
 def logout():
@@ -79,3 +81,17 @@ def member_delete(id):
     db.session.delete(member)  
     db.session.commit()  
     return redirect(url_for('member_list'))
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    contact_form = ContactForm()
+    if request.method == "POST":
+        name = contact_form.name.data
+        email = contact_form.email.data
+        message = contact_form.message.data
+
+        # You can handle the form submission here (save to DB, send email, etc.)
+        flash("Thanks for reaching out! We'll be in touch soon. 😊", "success")
+        return redirect(url_for("contact"))
+
+    return render_template("contact.html", contact_form=contact_form)

@@ -8,7 +8,7 @@ class Member(db.Model, UserMixin):
     __tablename__ = 'member'
     id = db.Column(db.Integer, primary_key=True)  # システムで使う番号
     email = db.Column(db.String(255), unique=True, index=True)  # メール
-    user_name = db.Column(db.String(255), unique=True, index=True)
+    user_name = db.Column(db.String(100), unique=True, index=True)
     password_hash = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)  # 作成日時
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)  # 更新日時
