@@ -11,22 +11,26 @@ import testapp.login
 @app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        #フォーム入力したアドレスがDB内にあるか検索
-        user = Member.query.filter_by(email=form.email.data).first()
-        if user is not None:
-            #check_passwordはUserモデル内の関数
-            if user.check_password(form.password.data):
-                #ログイン処理。ログイン状態として扱われる。
-                login_user(user)
-                next = request.args.get('next')
-                if next == None or not next[0] == '/':
-                    next = url_for('login')
-                return redirect(next)
-            else:
-                flash('パスワードが一致しません')
-        else:
-            flash('入力されたユーザーは存在しません')
+    match request.method:
+        case 'POST':
+                if form.validate_on_submit():
+                #フォーム入力したアドレスがDB内にあるか検索
+                    user = Member.query.filter_by(email=form.email.data).first()
+                    if user is not None:
+                        #check_passwordはUserモデル内の関数
+                        if user.check_password(form.password.data):
+                            #ログイン処理。ログイン状態として扱われる。
+                            login_user(user)
+                            next = request.args.get('next')
+                            if next == None or not next[0] == '/':
+                                next = url_for('login')
+                            return redirect(next)
+                        else:
+                            flash('Incorrect password', 'danger')
+                    else:
+                        flash('No matching account', 'danger')
+                else:
+                    flash('Incorrect email format', 'danger')
     return render_template('index.html', form=form, current_user=current_user)
 
 @app.route('/logout')
