@@ -10,6 +10,7 @@ flask-wtf = "*"
 gunicorn = "*"
 python-dotenv = "*"
 awsebcli = "*"
+flask-login = "*"
 
 [dev-packages]
 
