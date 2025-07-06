@@ -7,10 +7,10 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
-gunicorn = "*"
 python-dotenv = "*"
-awsebcli = "*"
 flask-login = "*"
+awsebcli = "*"
+gunicorn = "*"
 
 [dev-packages]
 
