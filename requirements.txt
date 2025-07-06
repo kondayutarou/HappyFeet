@@ -1,2 +1,0 @@
-pip install gunicorn python-dotenv
-pip freeze > requirements.txt
