@@ -1,3 +1,1 @@
-from clubhappyfeet import app as application
-
-application = create_app()
+from testapp import app as application
